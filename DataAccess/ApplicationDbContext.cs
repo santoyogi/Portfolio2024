@@ -1,6 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-public class DataAccess : DbContext
+namespace DataAccess
 {
-
+    public class ApplicationDbContext : DbContext
+    {
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        {
+            
+        }
+    }
 }
