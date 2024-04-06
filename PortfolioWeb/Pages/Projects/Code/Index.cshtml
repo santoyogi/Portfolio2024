@@ -1,0 +1,175 @@
+﻿@page
+@model PortfolioWeb.Pages.Projects.Code.IndexModel
+@{
+}
+<style>
+#carouselImg {
+	margin: 15px; 
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+/* Style the list */
+ul.breadcrumb {
+  padding: 10px 16px;
+  list-style: none;
+  background-color: #eee;
+  width: auto;
+}
+
+/* Display list items side by side */
+ul.breadcrumb li {
+  display: inline;
+  font-size: 18px;
+}
+
+/* Add a slash symbol (/) before/behind each list item */
+ul.breadcrumb li+li:before {
+  padding: 8px;
+  color: black;
+  content: "/\00a0";
+}
+
+/* Add a color to all links inside the list */
+ul.breadcrumb li a {
+  color: #0275d8;
+  text-decoration: none;
+}
+
+/* Add a color on mouse-over */
+ul.breadcrumb li:hover {
+  color: #01447e;
+  text-decoration: underline;
+}
+</style>
+
+<h1 id="top">Code Examples</h1>
+<br />
+
+<div class="row text-center">
+    <!-- C++ -->
+  <div class="col-sm-4">
+    <div class="card" style="margin: 15px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+      <div class="card-body">
+           <h2 class="card-title text-primary">C++</h2>
+           <hr />
+        <p class="card-text">An example c++ program from a data structures & algorithms course that implements an array-based hash table.</p>
+       <a href="~/docs/closedHashing.cpp" _TARGET="_blank"_>closed hashing</a>
+       <br />
+      </div>
+    </div>
+  </div>
+
+  <!-- C# -->
+  <div class="col-sm-4">
+    <div class="card" style="margin: 15px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+      <div class="card-body">
+        <h2 class="card-title text-primary">C#</h2>
+        <hr />
+        <p class="card-text">This is C# code from the sunridge HOA site. I wrote this to add and update news items. Although you can not run this program alone. It displays my logic and problem-solving.</p>
+         <a href="~/docs/Upsert.txt" _TARGET="_blank"_>Upsert.txt</a>
+         <br />
+      </div>
+    </div>
+  </div>
+
+  <!-- C -->
+  <div class="col-sm-4">
+    <div class="card" style="margin: 15px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+      <div class="card-body">
+        <h2 class="card-title text-primary">C</h2>
+        <hr />
+        <p class="card-text">This is a small shell simulator. The main thing you can do is change directories.</p>
+        <a href="~/docs/shell.C" _TARGET="_blank"_>shell</a>
+        <br />
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row text-center">
+    <!-- Java -->
+  <div class="col-sm-4">
+    <div class="card" style="margin: 15px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+      <div class="card-body">
+           <h2 class="card-title text-primary">Java</h2>
+           <hr />
+        <p class="card-text">asks the user to enter a decimal
+number and stores it in IEEE 754 single-precision floating point representation. You will
+then parse the IEEE 754 representation to extract the different pieces (sign, exponent,
+and significand).</p>
+       <a href="~/docs/closedHashing.cpp" _TARGET="_blank"_>Assembly</a>
+       <br />
+      </div>
+    </div>
+  </div>
+
+  <!-- PowerShell -->
+  <div class="col-sm-4">
+    <div class="card" style="margin: 15px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+      <div class="card-body">
+        <h2 class="card-title text-primary">PowerShell</h2>
+        <hr />
+        <p class="card-text">This PowerShell script takes in a folder and displays information about the files in that directory.</p>
+         <a href="~/docs/srpt.txt" _TARGET="_blank"_>Foler Information Generator</a>
+         <br />
+      </div>
+    </div>
+  </div>
+
+  <!-- Python -->
+  <div class="col-sm-4">
+    <div class="card" style="margin: 15px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+      <div class="card-body">
+        <h2 class="card-title text-primary">Python</h2>
+        <hr />
+        <p class="card-text">As a student, I have created many projects. I have collected some of my favorites and
+            have compiled them into a list that can be found on the Projects page. </p>
+        <a href="~/docs/shell.C" _TARGET="_blank"_>shell</a>
+        <br />
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Assembly -->
+<div class="row text-center">
+  <div class="col-sm-4">
+    <div class="card" style="margin: 15px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+      <div class="card-body">
+           <h2 class="card-title text-primary">Assembly</h2>
+           <hr />
+        <p class="card-text">An example c++ program from a data structures & algorithms course.</p>
+       <a href="~/docs/closedHashing.cpp" _TARGET="_blank"_>closed hashing</a>
+       <br />
+      </div>
+    </div>
+  </div>
+
+  <!-- Bash -->
+  <div class="col-sm-4">
+    <div class="card" style="margin: 15px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+      <div class="card-body">
+        <h2 class="card-title text-primary">PowerShell</h2>
+        <hr />
+        <p class="card-text">This PowerShell script takes in a folder and displays information about the files in that directory.</p>
+         <a href="~/docs/srpt.txt" _TARGET="_blank"_>Foler Information Generator</a>
+         <br />
+      </div>
+    </div>
+  </div>
+
+  <!-- SQL -->
+  <div class="col-sm-4">
+    <div class="card" style="margin: 15px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+      <div class="card-body">
+        <h2 class="card-title text-primary">Python</h2>
+        <hr />
+        <p class="card-text">As a student, I have created many projects. I have collected some of my favorites and
+            have compiled them into a list that can be found on the Projects page. </p>
+        <a href="~/docs/shell.C" _TARGET="_blank"_>shell</a>
+        <br />
+      </div>
+    </div>
+  </div>
+</div>
+

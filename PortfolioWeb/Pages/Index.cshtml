@@ -4,7 +4,125 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="row text-center">
+  <div class="col-sm-4">
+    <div class="card" style="margin: 15px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+      <div class="card-body">
+           <h2 class="card-title text-primary">Current Project</h2>
+           <hr />
+        <p class="card-text">Sunridge Homeowners Association is looking for an update
+                to their <a href="https://sunridge.info/">current site.</a> Our team, Visionary Tech, consists of five students
+                who have taken this on as their Capstone project. The new site is
+                currently under construction but can be previewed here</p>
+       <img class="card-img-top" style="border-radius: 1%; margin: 5px" src="~/images/Sunridge.png" />
+       <br />
+       <div class="card-footer">
+           <a asp-page="/Projects/Current/Index" class="btn btn-primary" style="margin: 5px;">View More</a>
+       </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="card" style="margin: 15px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+      <div class="card-body">
+        <h2 class="card-title text-primary">Upcoming Projects</h2>
+        <hr />
+        <p class="card-text">Lawn & Landscape On Point LLC only has a <a href="https://www.facebook.com/profile.php?id=61556710452695">facebook page.</a>
+                The company is looking to advance their business by allowing their customers to view more information about their services and
+                book online. Their marketing team has asked me to create this website for them.</p>
+         <img class="card-img-top" style="border-radius: 1%; height: 178px; width: 170px; margin: 5px;" src="~/images/lawnscape.jpg" />
+         <br />
+           <div class="card-footer">
+               <a asp-page="/Projects/Upcoming/Index" class="btn btn-primary" style="margin: 5px;">View More</a>
+           </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="card" style="margin: 15px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+      <div class="card-body">
+        <h2 class="card-title text-primary">Past Projects</h2>
+        <hr />
+        <p class="card-text">As a student, I have created many projects. I have collected some of my favorites and
+            have compiled them into a list that can be found on the Projects page. </p>
+        <img class="col-sm-4 card-img-top" style="border-radius: 1%; margin: 5px; height:120px; width: 300px" src="~/images/cycle.png" />
+        <img class="col-sm-4 card-img-top" style="border-radius: 1%; margin: 5px; height:120px; width: 300px" src="~/images/donut_ss.png" />
+        <br />
+           <div class="card-footer">
+               <a asp-page="/Projects/Past/Index" class="btn btn-primary" style="margin: 5px;">View More</a>
+           </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+<!--
+<table class="table-hover">
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <a asp-area="" asp-page="/Projects/Current/Index"><h2>Current Project</h2></a>
+            </td>
+            <td>
+                <hr />
+                <p>Sunridge Homeowners Association is looking for an update
+                to their <a href="https://sunridge.info/">current site.</a> Our team, Visionary Tech, consists of five students
+                who have taken this on as their Capstone project. The new site is
+                currently under construction but can be previewed here</p>
+            </td>
+            <td>
+                <img class="box-shadow card" style="height:300px; border-radius: 1%; margin-left: 30px" src="~/images/Sunridge.png" />
+            </td>
+        </tr>
+        <tr>
+            <td>&nbsp; </td>
+            <td>&nbsp; </td>
+            <td>&nbsp; </td>
+        </tr>
+        <tr>
+            <td>
+                <hr />
+                <p>Lawn & Landscape On Point LLC only has a <a href="https://www.facebook.com/profile.php?id=61556710452695">facebook page.</a>
+                The company is looking to advance their business by allowing their customers to view more information about their services and
+                book online. Their marketing team has asked me to create this website for them.</p>
+            </td>
+            <td>
+                <img class="box-shadow card" style="height:350px; border-radius: 1%; margin-left: 60px" src="~/images/lawnscape.jpg" />
+            </td>
+            <td>
+                <a asp-area="" asp-page="/Projects/Upcoming/Index">
+                    <h2 style="padding-left:20px">Upcomming Projects</h2>
+                </a>
+            </td>
+        </tr>
+        <tr>
+            <td>&nbsp; </td>
+            <td>&nbsp; </td>
+            <td>&nbsp; </td>
+        </tr>
+        <tr>
+            <td>
+                <a asp-area="" asp-page="/Projects/Past/Index">
+                    <h2>Past Projects</h2>
+                </a>
+            </td>
+            <td>
+                <hr />
+                <p>As a student, I have created many projects. I have collected some of my favorites and
+                    have compiled them into a list that can be found on the Projects page.
+                </p>
+            </td>
+            <td>
+                <img class="box-shadow card" style="height:270px; border-radius: 1%; margin-left: 30px" display:inline-block; border-radius: 1%; margin-left: 30px" src="~/images/cycle.png" />
+            </td>
+        </tr>
+    </tbody>
+</table>
+-->

@@ -1,0 +1,38 @@
+#!/usr/bin/env pwsh
+# (Your name)
+# Lab 7 - PowerShell Search and Report
+# CS 3030 - Scripting Languages
+
+$todaysDate = & date
+$myHostName = hostname
+$fileName = $args[0]
+
+if(![string]::IsNullOrEmpty($fileName)){
+    Write-Host "SearchReport" $myHostName $fileName $todaysDate
+}
+else {
+    Write-Host "Usage: srpt.ps1 FOLDER"
+    exit 1
+}
+
+$numDirectories = find $fileName -type d | wc -l
+$numDirectories = $numDirectories - 1
+$totalFiles = find $filename -type f | wc -l
+$symLinks = find $filename -type l | wc -l
+$oldFiles = find $filename -mtime +365 | wc -l
+$graphicFiles = find $fileName -type f -name '*.jpg' -o -name '*.bmp' -o -name '*.gif' | wc -l
+$largeFiles = find $filename -type f -size +500000c | wc -l
+$tempFiles = find $fileName -type f -name '*.o' | wc -l
+$executableFiles = find $fileName -type f -name '*.bat' -o -name '*.ps1' -o -name '*.exe' | wc -l
+$totalFileSize = du -sb | tail -n1 | awk '{print $1}'
+$totalFileSize = $totalFileSize.ToString("N0")
+
+Write-Host "Directories" $numDirectories
+Write-Host "Files" $totalFiles
+Write-Host "Sym links" $symLinks
+Write-Host "Old files" $oldFiles
+Write-Host "Large files" $largeFiles
+Write-Host "Graphics files" $graphicFiles
+Write-Host "Temporary files" $tempFiles
+Write-Host "Executable files" $executableFiles
+Write-Host "TotalFileSize" $totalFileSize

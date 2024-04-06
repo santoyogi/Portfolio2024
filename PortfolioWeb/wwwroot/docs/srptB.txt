@@ -1,0 +1,47 @@
+#!/bin/bash
+# Gissel Santoyo
+# Lab2 - Search and Report
+# CS 3030 - Scripting Languages
+
+# checking to see if a file was input, if not exit with status code 1
+if [ $# -ne 1 ]; then
+        echo "Usage: srpt FOLDER"
+        exit 1
+fi
+
+# print report header
+echo "SearchReport $(hostname) $1 $(date)"
+
+# create tmp folder named after host name
+mkdir $(pwd)/tmp/$USER
+
+# use find to get file information
+find $1 \( -type f -fprintf $(pwd)/tmp/$USER/numberoffiles "\n" \) , \( -type d -fprintf $(pwd)/tmp/$USER/numberofdirectories "\n" \) , \( -type l -fprintf $(pwd)/tmp/$USER/numberoflinks "\n" \) , \( -type f -fprintf $(pwd)/tmp/$USER/sizeofallfiles "%s\n" \) , \( -type f \( -name '*.jpg' -o -name '*.bmp' -o -name '*.gif' \) -fprintf $(pwd)/tmp/$USER/numberofgraphicfiles "\n" \) , \( -type f -mtime +365 -fprintf $(pwd)/tmp/$USER/numberofoldfiles "\n" \) , \( -type f -executable -fprintf $(pwd)/tmp/$USER/numberofexecutablefiles "\n" \) , \( -type f \( -name '*.o' \) -fprintf $(pwd)/tmp/$USER/numberoftempfiles "\n" \)
+
+# Calculate values from file
+fileCnt=$(wc -l $(pwd)/tmp/$USER/numberoffiles | cut -d' ' -f 1)
+directoryCnt=$(wc -l $(pwd)/tmp/$USER/numberofdirectories | cut -d' ' -f 1)
+linkCnt=$(wc -l $(pwd)/tmp/$USER/numberoflinks | cut -d' ' -f 1)
+totalSize=$(awk '{tot=tot+$1} END {print tot}' $(pwd)/tmp/$USER/sizeofallfiles)
+totalGraphics=$(wc -l $(pwd)/tmp/$USER/numberofgraphicfiles | cut -d' ' -f 1)
+oldFiles=$(wc -l $(pwd)/tmp/$USER/numberofoldfiles | cut -d' ' -f 1)
+executableFiles=$(wc -l $(pwd)/tmp/$USER/numberofexecutablefiles | cut -d' ' -f 1)
+tempFiles=$(wc -l $(pwd)/tmp/$USER/numberoftempfiles | cut -d' ' -f 1)
+
+# decrement directory total by 1
+(( directoryCnt-- ))
+
+# print values
+echo "Execution time $SECONDS"
+printf "Directories %'d\n" $directoryCnt
+printf "Files %'d\n" $fileCnt
+printf "Sym links %'d\n" $linkCnt
+printf "Old files %'d\n" $oldFiles
+printf "Graphic files %'d\n" $totalGraphics
+printf "Temporary files %'d\n" $tempFiles
+printf "Executable files %'d\n" $executableFiles
+printf "TotalFileSize %'d\n" $totalSize
+
+rm -r $(pwd)/tmp/$USER
+
+exit 0

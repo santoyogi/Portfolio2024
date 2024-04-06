@@ -1,0 +1,204 @@
+# Author: Gissel Santoyo
+# Date: 4/24/2022
+# Description: A floating point conversion MIPS program
+
+.macro print_str (%string)
+	la    $a0, %string
+	li    $v0, 4
+	syscall
+.end_macro
+
+.globl main, read_float, print_sign, print_exp, print_significand		# Do not remove this line
+
+# Data for the program goes here
+.data
+
+ieee: .word 0		# store your input here
+again: .asciiz "Do you want to do it again?"
+prompt: .asciiz "\nGissel Santoyo \nCS2810 Spring 2022 \nWelcome to the IEEE parser\nEnter an IEEE 754 floating point number in decimal form: "
+neg_sign: .asciiz "\nNegative sign: "
+pos_sign: .asciiz "\nPositive sign: "
+new_line: .asciiz "\n"
+expoBias:	.asciiz "\nExpo with bias: "
+expoNoBias:	.asciiz "\nExpo without bias: "
+manti:		.asciiz "\nMantissa: "
+sieee:		.asciiz "\nIEEE-754 Single Prec: "
+newline:	.asciiz "\n"
+
+#Test Cases:
+#
+#	1.) 
+#	INPUT: -44.11
+#	
+#	OUTPUT:
+#		Negative sign: 0x00000001
+#		Expo with bias: 0x00000084
+#		Expo without bias: 0x00000005
+#		Mantissa: 0x003070a4
+#		IEEE-754 Single Prec: 0xc23070a4
+#
+#
+#
+#	2.)
+#	INPUT: 122.5
+#
+#	OUTPUT: 
+#		Positive sign: 0x00000000
+#		Expo with bias: 0x00000085
+#		Expo without bias: 0x00000006
+#		Mantissa: 0x00350000
+#		IEEE-754 Single Prec: 0x42f50000
+#
+#
+
+	
+.text 				# Code goes here
+main:
+	
+	# Task 2: Call read_float()
+	jal read_float
+	
+	# Task 3: Call print_sign(ieee)
+	jal print_sign
+	
+	# Task 4: Call print_exp(ieee)
+	jal print_exp
+	
+	# Task 5: Call print_significand(ieee)
+	jal print_significand
+	
+	# Task 6: Print IEEE number in hex
+	li $v0, 4		#set up to print a string
+	la $a0, sieee		#print sieee
+	syscall
+	
+	mfc1 $t0, $f0		#move floating point number into registers 
+	move $a0, $t0		#move contents of t0 into a0
+	li $v0, 34		#print number in hexadecimal
+	syscall
+	
+	# Task 1: Try again pop-up
+	li $v0, 50		#set up to display dialogue box
+	la $a0, again		#print again string
+	syscall
+	
+	move $t1, $a0		#move user input into register t1
+	
+	li $v0, 4		#set up to print a string
+	la $a0, newline	#print newline
+	syscall
+	
+	bne $t1, 0, exit_main	#break to program exit if user input is no
+	j main			#jump to main
+	
+exit_main:
+	li    $v0, 10		# 10 is the exit program syscall
+	syscall			# execute call
+## end of ca.asm
+
+
+
+#procedures
+read_float:
+	li $v0, 52		#set up dialogue box that reads a float
+	la $a0, prompt		#set up to print prompt string
+	syscall
+	
+	mfc1 $t0, $f0		#move floating point number into registers 
+	sw $t0, ieee		#store number into ieee variable
+	
+	
+read_float_ret:
+	jr $ra			#jump back to main
+
+
+print_sign:
+	lui $t1, 0x8000		#load binary num 1000 0000 0000 0000... into $t1
+	and $t0, $t0, $t1	#and user num and 0x8000 to get MSB
+	
+	beq $t0, 0, positive	#break if MSB is equal to 0
+	
+	li $v0, 4		#set up to print a string
+	la $a0, neg_sign	#print neg_sign
+	syscall
+	
+	li $t2, 0x0001		#load 1 into register t2
+	move $a0, $t2		#set up to print integer
+	li $v0, 34		#print number as hexadecimal
+	syscall
+
+	j end_print_sign	#jump to end of procedure
+	
+positive:
+	li $v0, 4		#set up to print string
+	la $a0, pos_sign	#print pos_sign
+	syscall
+	
+	li $t2, 0x0000		#load 0 into register t2
+	move $a0, $t2		#set up to print integer
+	li $v0, 34		#print number as hexadecimal
+	syscall
+	
+end_print_sign:
+	jr $ra			#jump back to main
+	
+	
+print_exp:
+	mfc1 $t0, $f0		#copy floating point number into $t0
+	
+	# clear all but bits 30-23 
+	lui $t1, 0x3FC0		#load number with bits at 30-23
+	and $t0, $t1, $t0	#AND user number with 0x3FC0
+	
+	# shift right 23 
+	srl $t0, $t0, 23
+	
+	
+	li $t2, 0x0080		#li 128 into register t2
+	add $t0, $t2, $t0	#add $t0 and $t2
+	
+	
+	li $v0, 4		#set up to print string
+	la $a0, expoBias	#print expoBias
+	syscall
+	
+	
+	move $a0, $t0		#move contents of $t0 into $a0
+	li $v0, 34		#print number in hexadecimal
+	syscall
+	
+	
+	sub $t0, $t0, 0x007f	# subtract bias
+	
+	
+	li $v0, 4		#set up to print string
+	la $a0, expoNoBias	#print expoNoBias
+	syscall
+	
+	
+	move $a0, $t0		#move contents of $t0 into $a0
+	li $v0, 34		#print number in hexadecimal
+	syscall
+	
+
+end_print_exp:
+	jr $ra			#jump back to main
+
+
+print_significand:
+	mfc1 $t0, $f0		#copy floating point number into $t0
+	
+	li $t1, 0x003fffff	#load binary num 0000 0000 0011 1111 1111 1111 1111 1111
+	and $t0, $t0, $t1	#and user num with 0x003fffff
+	
+	
+	li $v0, 4		#set up to print string
+	la $a0, manti		#print manti
+	syscall
+	
+	move $a0, $t0		#move contents of $t0 into $a0
+	li $v0, 34		#print number in hexadecimal
+	syscall
+
+end_print_significand:
+	jr $ra			#jump back to main

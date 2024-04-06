@@ -3,13 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34607.119
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortfolioWeb", "PortfolioWeb\PortfolioWeb.csproj", "{F1D65576-3516-4B0D-AC35-9D6CF275ED39}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PortfolioWeb", "PortfolioWeb\PortfolioWeb.csproj", "{F1D65576-3516-4B0D-AC35-9D6CF275ED39}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5ECBCF94-0909-4860-B0F5-485A7E216330} = {5ECBCF94-0909-4860-B0F5-485A7E216330}
+		{708B2DBA-0904-47CA-B01C-0FD91EEEDC53} = {708B2DBA-0904-47CA-B01C-0FD91EEEDC53}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{708B2DBA-0904-47CA-B01C-0FD91EEEDC53}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{708B2DBA-0904-47CA-B01C-0FD91EEEDC53}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5ECBCF94-0909-4860-B0F5-485A7E216330} = {5ECBCF94-0909-4860-B0F5-485A7E216330}
+		{94B1F265-4531-4DB5-B0EA-53A9B5F9D814} = {94B1F265-4531-4DB5-B0EA-53A9B5F9D814}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utility", "Utility\Utility.csproj", "{5ECBCF94-0909-4860-B0F5-485A7E216330}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utility", "Utility\Utility.csproj", "{5ECBCF94-0909-4860-B0F5-485A7E216330}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{94B1F265-4531-4DB5-B0EA-53A9B5F9D814}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\DataAccess.csproj", "{94B1F265-4531-4DB5-B0EA-53A9B5F9D814}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

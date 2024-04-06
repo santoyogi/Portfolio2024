@@ -1,0 +1,188 @@
+﻿@page
+@model PortfolioWeb.Pages.Projects.Current.IndexModel
+@{
+}
+<h1>Current Project</h1>
+<br />
+<h2 class="text-info">SUNRIDGE HOA</h2>
+<p>Sunridge Home Owners Association has a current site that was created by
+	students for their neighborhood. Although the website works, the board
+	members want added functionality.</p>
+<p>This is the description quoted from the capstone project by Professory
+	Fry at Weber State University:</p>
+<p>"A real project for the Sunridge Homeowner's Association - allowing
+	administrators to manage their website "word press" style - without
+	knowing HTML, and allowing owners to manage their ownership information
+	(as well as pay annual dues, access secure documents, post classified
+	ads, fill out forms, etc.).""</p>
+<p>My team, Visionary Tech, has taken on this project. We have documented
+	the requirements, our ideas, wireframes, diagrams and meetings with the
+	board members. Currently we are implementing these ideas into a working
+	website. The code for this project is not available publicly but the
+	website can be previewed below.</p>
+<div style="text-align:center">
+	<h3 class="text-success">Sunridge Home</h3>
+	<div id="sunHome" class="carousel slide" data-ride="carousel">
+	  <div class="carousel-inner">
+		<div class="carousel-item active">
+			<img src="~/images/Sunridge.png" class="block w-50" alt="..." style="border:solid black 5px; border-radius:2%">
+		</div>
+		<div class="carousel-item">
+		  <img src="~/images/Sunridge/Sunridge2.png" class="block w-50" alt="..." style="border:solid black 5px; border-radius:2%">
+		</div>
+		<div class="carousel-item">
+		  <img src="~/images/Sunridge/Sunridge3.png" class="block w-50" alt="..." style="border:solid black 5px; border-radius:2%">
+		</div>
+	  </div>
+	  <div style="text-align:center">
+		  <a href="#sunHomeControls" role="button" data-slide="prev" onclick="$('#sunHome').carousel('prev')">
+			<span style="margin:10px; border-radius:2%" class="btn btn-info">Previous</span>
+		  </a>
+		  <a href="#sunHomeControls" role="button" data-slide="next" onclick="$('#sunHome').carousel('next')">
+			<span style="margin:10px; border-radius:2%" class="btn btn-info">Next</span>
+		  </a>
+	  </div>
+	</div>
+	<br />
+	<p>This is the home page. The public buttons are available to everyone who views <br />
+		the site, while the owner buttons will only be shown to logged in owners of<br />
+		the Sunridge neighborhood.</p>
+</div>
+<hr />
+<div style="text-align:center">
+	<h3 class="text-success">Invoices</h3>
+	<div id="sunInvoice" class="carousel slide" data-ride="carousel">
+	  <div class="carousel-inner">
+		<div class="carousel-item active">
+			<img src="~/images/Sunridge/Sunridge4.png" class="block w-50" alt="..." style="border:solid black 5px; border-radius:2%">
+		</div>
+		<div class="carousel-item">
+		  <img src="~/images/Sunridge/Sunridge5.png" class="block w-50" alt="..." style="border:solid black 5px; border-radius:2%">
+		</div>
+	  </div>
+	  <div style="text-align:center">
+		  <a href="#sunInvoiceControls" role="button" data-slide="prev" onclick="$('#sunInvoice').carousel('prev')">
+			<span style="margin:10px; border-radius:2%" class="btn btn-info">Previous</span>
+		  </a>
+		  <a href="#sunInvoiceControls" role="button" data-slide="next" onclick="$('#sunInvoice').carousel('next')">
+			<span style="margin:10px; border-radius:2%" class="btn btn-info">Next</span>
+		  </a>
+	  </div>
+	</div>
+	<br />
+	<p>These are the invoices and create/edit invoice pages. I created the UI <br />
+		for these two pages. Here the Owners can view their invoices and the <br />
+		admin (board members) can send them out. We are working on hiding certain <br />
+		buttons depending on who is logged in.</p>
+</div>
+<hr />
+<div style="text-align:center">
+	<h3 class="text-success">Communications</h3>
+	<div id="sunComm" class="carousel slide" data-ride="carousel">
+	  <div class="carousel-inner">
+		<div class="carousel-item active">
+			<img src="~/images/Sunridge/Sunridge6.png" class="block w-50" alt="..." style="border:solid black 5px; border-radius:2%">
+		</div>
+		<div class="carousel-item">
+		  <img src="~/images/Sunridge/Sunridge7.png" class="block w-50" alt="..." style="border:solid black 5px; border-radius:2%">
+		</div>
+	  </div>
+	  <div style="text-align:center">
+		  <a href="#sunCommControls" role="button" data-slide="prev" onclick="$('#sunComm').carousel('prev')">
+			<span style="margin:10px; border-radius:2%" class="btn btn-info">Previous</span>
+		  </a>
+		  <a href="#sunCommControls" role="button" data-slide="next" onclick="$('#sunComm').carousel('next')">
+			<span style="margin:10px; border-radius:2%" class="btn btn-info">Next</span>
+		  </a>
+	  </div>
+	</div>
+	<br />
+	<p>Here, the communications and compose message pages are displayed. These <br />
+		allow the owners to send messages to the board members and the board <br />
+		members to respond.</p>
+</div>
+<h3 class="text-success">What's next?</h3>
+<p>Our team needs to have our website work with a database to actually store all
+	the information of the residents of Sunridge. There are also other 
+	functionalites we are hoping to get to. Below are our User Stories which
+	outlines what the Board Members have expressed they would like.</p>
+<br />
+
+<p>
+<h5>PROFILES</h5>
+As an owner, I need to be able to update my contact information, so the board can easily
+communicate with me. <br />
+As a board member, I need the ability to quickly look up owners - by name, or lot, so I can
+contact them in a variety of ways (e-mail, text, phone call)<br />
+<br />
+
+<h5>INVOICING</h5>
+As a board member, I need to be able to send a bulk invoice with details so that all owners
+receive an invoice and know what it’s for.<br />
+As a board member, I need to be able to send individual invoices to owners so that they can
+see the dues that they owe.<br />
+As a board member, I need the ability to mark invoices as paid when I receive a check so that
+there is a record of invoices paid. <br />
+As an owner, I need to see my current balance of dues owed so that I know what I have paid
+and what is still due. <br />
+As an owner, I need to be able to pay my dues online for each lot I own so that I don’t have to
+mail in a check. <br />
+(Need to be sure when payment is made, it indicates which lot has made payment.)<br />
+<br />
+
+<h5>COMMUNICATION</h5>
+As an owner, I need to be able to easily send a communication to the board so that my
+concerns can be addressed<br />
+As a board member, I need to be notified when a communication comes in so that I can
+respond to them in a timely manner.<br />
+As an owner, I need to be able to see communication threads so that I can have a paper trail of
+communications with board members.<br />
+<br />
+
+<h5>CALENDAR</h5>
+As a board member, I need to be able to add events to the calendar quickly so that the
+community can stay informed of events.<br />
+<br />
+
+<h5>FORMS</h5>
+As an owner, I need to be able to fill out forms electronically so that I can request a cabin and
+get approval from the board.<br />
+<br />
+
+<h5>KEYS</h5>
+As an owner, I need to be able to see my keys so that I can know which keys are assigned to
+me.<br />
+As an owner, I need to be able to report my keys as missing so that the board can know that it
+is lost.<br />
+As a board member, I need the ability to assign and remove keys on lots so that there is a
+record of who has which keys.<br />
+<br />
+
+<h5>MOBILE FRIENDLY</h5>
+As an owner, I need the website to work on mobile devices so that I can access it when I don’t
+have a computer handy.<br />
+<br />
+
+<h5>ADMIN</h5>
+As a board member, I need the ability to create new accounts for owners, so they can access
+the site.<br />
+As a board member, I need the ability to assign new owners to existing lots (and retire old
+owner accounts).<br />
+As a board member, I need the ability to upload multiple documents - either to the public facing
+site, a particular owner lot, or a private folder that’s accessible to owners only.<br />
+<br />
+
+<h5>Additional Information for consideration:</h5>
+1. New tab for ‘Minutes’ instead of ‘Other.’ <br />
+2. Create a ‘bounceback’ email to the owner (from the board) acknowledging when
+they have submitted a communication to the board.<br />
+3. Automated email to communications administrator when a lot owner submits a
+communication.<br />
+4. Create a ‘New Owner’ tab with important information needed as a new lot owner.<br />
+5. Where could we have critical Weber County contact information if a lot owner has
+questions.<br />
+6. Consider a live web cam on the site.<br />
+7. More advanced weather links in addition to the scrolling weather at the bottom of
+the page. www.noaa.gov, www.weather.gov, radar.weather.gov. Etc.<br />
+
+</p>

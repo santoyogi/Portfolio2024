@@ -1,0 +1,280 @@
+using DataAccess;
+using Infrastructure.Interfaces;
+using Infrastructure.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using NuGet.Packaging.Signing;
+using System.Security.Cryptography.X509Certificates;
+using Utility;
+
+namespace SunridgeWEB.Pages.Public.News
+{
+    public class UpsertModel : PageModel
+    {
+		private readonly IWebHostEnvironment _webHostEnvironment;
+		private readonly UnitOfWork _unitOfWork;
+		private readonly ApplicationDbContext _db;
+		public HOAFile objFileCopy { get; set; }
+		public List<Artifact> ArtifactList;
+		public List<HOAFile> filesList;
+		[BindProperty]
+		public Artifact objArtifact { get; set; }
+		[BindProperty]
+		public HOAFile objFile { get; set; }
+		
+		public UpsertModel(ApplicationDbContext db, UnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
+        {
+			_db = db;
+			_webHostEnvironment = webHostEnvironment;
+			_unitOfWork = unitOfWork;
+			ArtifactList = new List<Artifact>();
+		}
+		public async Task<IActionResult> OnGetAsync(int? Id)
+		{
+			// checking access
+			if ((!User.IsInRole(SD.AdminRole)))
+			{
+				return RedirectToPage("/Index");
+			}
+
+			// edit mode
+			if (Id != 0)
+			{
+				filesList = _db.HOAFile.ToList();
+				objArtifact = _db.Artifact.Find(Id);
+			}
+			// create mode
+			return Page();
+		}
+
+		public IActionResult OnPost(int Id)
+		{
+			if(objArtifact.ArtifactTitle == null || objArtifact.ArtifactDetails == null || objArtifact.ArtifactSortOrder.ToString() == "")
+			{
+				TempData["error"] = "Data Incomplete";
+				return Page();
+			}
+
+			// initialize HOA and HOAId for Artifact Object
+			HOA hoa = _db.HOA.First();
+			objArtifact.HOA = hoa;
+			objArtifact.HOAId = hoa.Id;
+
+			// initialize Artifact Category and Category ID for Artifact Object
+			ArtifactCategory category = _db.ArtifactCategory.Find(1);
+			objArtifact.ArtifactCategory = category;
+			objArtifact.ArtifactCategoryId = category.Id;
+
+			// determine root path for images
+			string webRootPath = _webHostEnvironment.WebRootPath;
+			var files = HttpContext.Request.Form.Files;
+			var extension = "";
+
+			// initializing AccessLevel, Modified date and archive
+			string IsChecked = Request.Form["chkArchive"];
+			if (IsChecked == "true")
+			{
+				objArtifact.ArtifactArchived = true;
+			}
+			else { objArtifact.ArtifactArchived = false; }
+
+			objArtifact.ArtifactAccessLevel = "User";
+			objArtifact.ArtifactModifiedDate = DateTime.Now;
+			objArtifact.ArtifactModifiedBy = "Admin";
+
+			// Adjust sort order when updating
+			ArtifactList = _db.Artifact.ToList();
+			for (int i = 0; i < ArtifactList.Count; i++)
+			{
+				// if the input sort number matches the number of another object
+				if (objArtifact.ArtifactSortOrder == ArtifactList[i].ArtifactSortOrder)
+				{
+					// update sort number for all objects that have a number greater than the input
+					for (int j = 0; j < ArtifactList.Count; j++)
+					{
+						// if the priority comes before, no need to adjust
+						if (ArtifactList[j].ArtifactSortOrder < objArtifact.ArtifactSortOrder)
+						{
+							continue;
+						}
+
+						// increment their sort number by 1 and update
+						ArtifactList[j].ArtifactSortOrder = ArtifactList[j].ArtifactSortOrder + 1;
+						_db.Artifact.Update(ArtifactList[j]);
+						_db.SaveChanges();
+
+						// detach object to avoid error
+						_db.Entry(ArtifactList[j]).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
+					}
+					continue;
+				}
+				// if the input sort number does not overlap with any other objects number then just detach and continue with update/create
+				else
+				{
+					_db.Entry(ArtifactList[i]).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
+				}
+			}
+
+			// add new news item
+			if (objArtifact == null || objArtifact.Id == 0)
+			{
+				// if no file is uploaded, use a default image
+				if (files.Count == 0 || files[0] == null)
+				{
+					string fileName = "Newsletters.jpg";
+					var uploads = Path.Combine(webRootPath, @"images\newsitems\");
+					extension = "jpg";
+					objFile.HOAFileName = @"\images\newsitems\" + fileName;
+
+					// initialize file type, access, and upload date
+					objFile.HOAFileType = extension;
+					objFile.HOAFileAccess = 'A';
+					objFile.HOAFileUploadDate = DateTime.Now;
+
+					// add artifact object to database
+					_db.Artifact.Add(objArtifact);
+					_db.SaveChanges();
+
+					// initialize Artifact and Artifact ID for HOAFile Object
+					Artifact artifact = _db.Artifact.Find(objArtifact.Id);
+					objFile.Artifact = artifact;
+					objFile.ArtifactId = artifact.Id;
+
+					_db.HOAFile.Add(objFile);
+					_db.SaveChanges();
+
+				}
+				// if a file is uploaded, set up path
+				else
+				{
+					// add artifact object to database
+					_db.Artifact.Add(objArtifact);
+					_db.SaveChanges();
+					for (int i = 0; i < files.Count; i++) {
+						string fileName = Guid.NewGuid().ToString();
+						var uploads = Path.Combine(webRootPath, @"images\newsitems\");
+						extension = Path.GetExtension(files[i].FileName);
+						var fullPath = uploads + fileName + extension;
+						using var fileStream = System.IO.File.Create(fullPath);
+						files[i].CopyTo(fileStream);
+
+						var objFile = new HOAFile();
+
+						objFile.HOAFileName = @"\images\newsitems\" + fileName + extension;
+
+						// initialize file type, access, and upload date
+						objFile.HOAFileType = extension;
+						objFile.HOAFileAccess = 'A';
+						objFile.HOAFileUploadDate = DateTime.Now;
+
+						// initialize Artifact and Artifact ID for HOAFile Object
+						Artifact artifact = _db.Artifact.Find(objArtifact.Id);
+						objFile.Artifact = artifact;
+						objFile.ArtifactId = artifact.Id;
+
+						_db.HOAFile.Add(objFile);
+						_db.SaveChanges();
+					}
+				}
+
+				TempData["success"] = "New announcement added succesfully";
+			}
+			// update news item
+			else
+			{
+				// if no new file is uploaded
+				if (files.Count == 0 || files[0] == null)
+				{
+					// iterate through HOAFile list and look for the right image
+					filesList = _db.HOAFile.ToList();
+					for (int i = 0; i < filesList.Count; i++)
+					{
+						// if the file artifact id = objArtifact ID then make a copy of the file object
+						if (filesList[i].ArtifactId == Id)
+						{
+							objFileCopy = filesList[i];
+						}
+						// detach list
+						_db.Entry(filesList[i]).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
+					}
+
+					// detach copy
+					_db.Entry(objFileCopy).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
+					_db.Artifact.Update(objArtifact);
+				}
+				// if a new file is uploaded
+				else
+				{
+					//if replace files is selected, delete old uploads from database and folder
+                    string replace = Request.Form["chkReplace"];
+                    if (replace == "true")
+                    {
+                        filesList = _db.HOAFile.ToList();
+                        for (int i = 0; i < filesList.Count; i++)
+                        {
+                            var objFile = new HOAFile();
+                            if (filesList[i].ArtifactId == Id)
+                            {
+                                objFile = filesList[i];
+                                _db.Entry(filesList[i]).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
+
+
+                                string fileName = objFile.HOAFileName;
+                                var fullPath = webRootPath + fileName;
+
+                                FileInfo file = new FileInfo(fullPath);
+
+                                if (file.Exists && !fullPath.Contains("Newsletters.jpg"))
+                                {
+                                    System.IO.File.Delete(fullPath);
+                                }
+                                _db.HOAFile.Remove(objFile);
+
+                                _db.SaveChanges();
+                            }
+                        }
+                    }
+
+                    // add artifact object to database
+                    _db.Artifact.Update(objArtifact);
+					_db.SaveChanges();
+
+					// loop through file uploads and add them to database
+					for (int i = 0; i < files.Count; i++) {
+						string fileName = Guid.NewGuid().ToString();
+						var uploads = Path.Combine(webRootPath, @"images\newsitems\");
+						extension = Path.GetExtension(files[i].FileName);
+						var fullPath = uploads + fileName + extension;
+						using var fileStream = System.IO.File.Create(fullPath);
+						files[i].CopyTo(fileStream);
+
+						var objFile = new HOAFile();
+
+						objFile.HOAFileName = @"\images\newsitems\" + fileName + extension;
+
+						// initialize file type, access, and upload date
+						objFile.HOAFileType = extension;
+						objFile.HOAFileAccess = 'A';
+						objFile.HOAFileUploadDate = DateTime.Now;
+
+						// initialize Artifact and Artifact ID for HOAFile Object
+						Artifact artifact = _db.Artifact.Find(objArtifact.Id);
+						objFile.Artifact = artifact;
+						objFile.ArtifactId = artifact.Id;
+
+						_db.HOAFile.Update(objFile);
+						_db.SaveChanges();
+					}
+				}
+
+				TempData["success"] = "News Item Updated Successfully";
+			}
+
+			_db.SaveChanges();
+			return RedirectToPage("./Index");
+		}
+
+	}
+}
+
